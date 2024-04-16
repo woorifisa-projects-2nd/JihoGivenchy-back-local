@@ -1,0 +1,97 @@
+@startuml
+class entity.project.local.BenefitSummary {
+- CardInfo cardInfo
+- String benefitTitle
+- String benefitSummary
+}
+
+class entity.project.local.CardInfo {
+- int cardId
+- String cardType
+- String annualFee
+- String previousAmount
+- CompanyInfo companyInfo
+- File image
+}
+
+class entity.project.local.CompanyInfo {
+- int companyId
+- String companyName
+}
+
+class entity.project.local.Answering {
+- QuestionContents questionContents
+- String title
+- String content
+- Date answeringDate
+}
+
+class entity.project.local.UserCard {
+- int userCardId
+- CardInfo cardInfo
+- UserInfo userInfo
+- Date issuanceDate
+- Date expirationPeriod
+}
+
+class project.local.WhereApplication {
++ {static} void main(String[])
+}
+
+class entity.project.local.SubscribeInfo {
+- int subscribeId
+- String title
+- String sectorCategory
+- String fee
+- CompanyInfo companyInfo
+}
+
+class entity.project.local.MapSearch {
+- int searchId
+- UserInfo userInfo
+- String searchContents
+- Date searchingDate
+}
+
+class entity.project.local.MapBenefits {
+- int mapBenefitId
+- CardInfo cardInfo
+- String benefitsDetail
+- String category
+}
+
+class dev.syntax.where.entity.QuestionContents {
+- int questionId
+- UserInfo userInfo
+- String category
+- String title
+- String content
+- boolean isAnswer
+- Date questionDate
+- int views
+}
+
+class entity.project.local.Faq {
+- int faqId
+- String title
+- String content
+- int view
+- String category
+}
+
+class entity.project.local.UserInfo {
+- int id
+- String password
+- String nickName
+- String name
+- Date join
+}
+
+class dev.syntax.where.entity.SubscribeBenefits {
+- int subscribeBenefitId
+- SubscribeInfo subscribeInfo
+- String title
+- String content
+}
+
+@enduml
