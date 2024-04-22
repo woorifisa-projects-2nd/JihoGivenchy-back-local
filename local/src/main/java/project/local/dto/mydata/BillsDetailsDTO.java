@@ -19,4 +19,5 @@ public class BillsDetailsDTO {
     private String merchantType;
     private Long chargeId;
 
+
 }

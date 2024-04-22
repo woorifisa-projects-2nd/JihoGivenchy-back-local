@@ -3,6 +3,7 @@ package project.local.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import project.local.dto.cardDetails.CardDetailDTO;
 import project.local.dto.local.LocalCardDTO;
 import project.local.entity.cardInfo.Card;
@@ -11,7 +12,6 @@ import project.local.repository.CardBenefitsRepository;
 import project.local.repository.CardRepository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,7 +27,7 @@ public class AdminServiceImpl {
         List<Card> all = cardRepository.findAll();
         List<LocalCardDTO> localCardDTOs = new ArrayList<>();
         for (Card card : all) {
-            // LocalCardDTO 객체를 생성하고 benefits를 설정합니다.
+            // LocalCardDTO 객체를 생성하고 benefits를 설정
             LocalCardDTO localCardDTO = LocalCardDTO.builder()
                     .cardImage(card.getCardImage())
                     .id(card.getId())

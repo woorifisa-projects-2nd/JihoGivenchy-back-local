@@ -34,6 +34,7 @@ public class MypageController {
         try {
             cards = myDataService.requestCards(userId);
         } catch (Exception e) {
+           log.info(e);
             throw new RuntimeException(e);
         }
 

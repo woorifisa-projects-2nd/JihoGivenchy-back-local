@@ -11,12 +11,11 @@ import java.util.List;
 @Log4j2
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/universe/manager")
+@RequestMapping("/universe/admin")
 public class AdminController {
 
     private final AdminServiceImpl adminService;
 
-    // 필요한 데이터만 반환
     @GetMapping("/cards")
     public List<LocalCardDTO> findCards() {
         return adminService.findCards();
@@ -42,4 +41,5 @@ public class AdminController {
     public void deleteCard(@PathVariable("cardId") Long id) {
         adminService.deleteCard(id);
     }
+
 }

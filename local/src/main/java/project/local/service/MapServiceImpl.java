@@ -3,7 +3,6 @@ package project.local.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.local.dto.local.LocalCardBenefitsDTO;
-import project.local.dto.map.MapBenefitDTO;
 import project.local.dto.mydata.CardsDTO;
 import project.local.entity.Category;
 import project.local.entity.cardInfo.Card;
@@ -45,8 +44,6 @@ public class MapServiceImpl {
                         .build();
             }
         }
-
         return null;
     }
-
 }
