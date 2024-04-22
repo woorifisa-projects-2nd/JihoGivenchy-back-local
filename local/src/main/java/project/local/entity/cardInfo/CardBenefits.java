@@ -6,6 +6,7 @@ import project.local.entity.cardInfo.Card;
 import javax.persistence.*;
 
 @Builder
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -15,10 +16,11 @@ import javax.persistence.*;
 public class CardBenefits {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CARD_BENEFITS_ID")
     private Long id;
 
-    @Column(name = "CARD_BENEFITS_CATAGORY")
+    @Column(name = "CARD_BENEFITS_CATEGORY")
     private String category;
 
     @Column(name = "CARD_BENEFITS_TITLE")
@@ -31,4 +33,24 @@ public class CardBenefits {
     @JoinColumn(name = "CARD_ID")
     private Card card;
 
+    @Column(name = "CARD_BENEFITS_CATEGORY_MAP")
+    private String categoryMap;
+
+    @Column(name = "CARD_BENEFITS_TITLE_MAP")
+    private String benefitTitleMap;
+
+    @Column(name = "CARD_BENEFITS_SUMMARY_MAP")
+    private String benefitSummaryMap;
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setBenefitTitle(String benefitTitle) {
+        this.benefitTitle = benefitTitle;
+    }
+
+    public void setBenefitSummary(String benefitSummary) {
+        this.benefitSummary = benefitSummary;
+    }
 }

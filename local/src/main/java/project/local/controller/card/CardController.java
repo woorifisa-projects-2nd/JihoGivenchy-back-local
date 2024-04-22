@@ -2,8 +2,8 @@ package project.local.controller.card;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import project.local.dto.CardDetailDTO.CardDetailDTO;
-import project.local.dto.CardDetailDTO.CardDetailRequestDTO;
+import project.local.dto.cardDetails.CardDetailDTO;
+import project.local.dto.cardDetails.CardDetailRequestDTO;
 import project.local.dto.local.LocalCardBenefitsDTO;
 
 import project.local.service.CardServiceImpl;

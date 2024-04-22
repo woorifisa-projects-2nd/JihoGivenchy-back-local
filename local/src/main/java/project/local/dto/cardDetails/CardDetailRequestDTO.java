@@ -1,4 +1,4 @@
-package project.local.dto.CardDetailDTO;
+package project.local.dto.cardDetails;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

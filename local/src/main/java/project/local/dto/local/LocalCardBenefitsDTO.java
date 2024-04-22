@@ -19,5 +19,9 @@ public class LocalCardBenefitsDTO {
     private String cardType;
     private Long cardId;
 
-    private List<String> benefits;
+    private String categoryMap;
+    private String benefitTitleMap;
+    private String benefitSummaryMap;
+    private String cardName;
+    private String image;
 }

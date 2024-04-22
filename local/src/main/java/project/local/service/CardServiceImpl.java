@@ -2,7 +2,7 @@ package project.local.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import project.local.dto.CardDetailDTO.CardDetailDTO;
+import project.local.dto.cardDetails.CardDetailDTO;
 import project.local.dto.local.LocalCardBenefitsDTO;
 import project.local.entity.cardInfo.Card;
 import project.local.entity.cardInfo.CardBenefits;
@@ -44,11 +44,11 @@ public class CardServiceImpl {
         Card b = cardRepository.findById(a.getCard().getId()).orElse(null);
 
         return CardDetailDTO.builder()
-                .benefits_Id(a.getId())
-                .card_benefit_title(a.getBenefitTitle())
-                .card_benefit_summary(a.getBenefitSummary())
-                .card_company(b.getCardCompany())
-                .card_img(b.getCardImage())
+                .benefitsId(a.getId())
+                .benefitTitle(a.getBenefitTitle())
+                .benefitSummary(a.getBenefitSummary())
+                .cardCompany(b.getCardCompany())
+                .cardImage(b.getCardImage())
                 .build();
 
     }

@@ -3,6 +3,8 @@ package project.local.entity.cardInfo;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -14,6 +16,7 @@ import javax.persistence.*;
 public class Card {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CARD_ID")
     private Long id;
 
@@ -35,4 +38,30 @@ public class Card {
     @Column(name = "CARD_IMAGE")
     private String cardImage;
 
+    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CardBenefits> benefits;
+
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
+    }
+
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
+
+    public void setAnnualFee(String annualFee) {
+        this.annualFee = annualFee;
+    }
+
+    public void setPreviousAmount(String previousAmount) {
+        this.previousAmount = previousAmount;
+    }
+
+    public void setCardCompany(String cardCompany) {
+        this.cardCompany = cardCompany;
+    }
+
+    public void setCardImage(String cardImage) {
+        this.cardImage = cardImage;
+    }
 }

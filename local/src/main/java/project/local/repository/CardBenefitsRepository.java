@@ -8,11 +8,10 @@ import java.util.List;
 
 @Repository
 public interface CardBenefitsRepository extends JpaRepository<CardBenefits, Long> {
-    List<CardBenefits> findByCategory(String benefitTitle);
 
     List<CardBenefits> findByCard_Id(Long cardId);
 
-    List<CardBenefits> findByBenefitTitle(String benefitTitle);
+    CardBenefits findByCard_IdAndCategoryMapContaining(Long cardId, String category);
 
-    CardBenefits findByCard_IdAndCategory(Long cardId, String category);
+
 }

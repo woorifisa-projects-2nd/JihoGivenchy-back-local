@@ -1,6 +1,9 @@
 package project.local.dto.local;
 
 import lombok.*;
+import project.local.dto.cardDetails.CardDetailDTO;
+
+import java.util.List;
 
 @Builder
 @Getter
@@ -17,5 +20,6 @@ public class LocalCardDTO {
     private String cardCompany;
     private String cardImage;
 
+    private List<CardDetailDTO> benefits;
 
 }
