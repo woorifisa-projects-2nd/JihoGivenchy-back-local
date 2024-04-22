@@ -11,7 +11,7 @@ import java.util.List;
 @Log4j2
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/universe/admin")
+@RequestMapping("/universe/manager")
 public class AdminController {
 
     private final AdminServiceImpl adminService;
