@@ -1,8 +1,6 @@
 package project.local.entity.cardInfo;
 
 import lombok.*;
-import project.local.entity.cardInfo.Card;
-
 import javax.persistence.*;
 
 @Builder

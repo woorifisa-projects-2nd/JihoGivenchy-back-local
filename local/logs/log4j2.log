@@ -16122,6 +16122,7 @@ com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct 
 2024-04-18 21:00  WARN [com.zaxxer.hikari.pool.PoolBase] HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5b2b4a8b (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
 2024-04-18 21:00  WARN [com.zaxxer.hikari.pool.PoolBase] HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@21ad35e8 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
 >>>>>>> d122f3abc6c03d65a55558f9d46dd9f48a36c77c
+<<<<<<< HEAD
 2024-04-22 17:16  INFO [project.local.LocalApplication] Starting LocalApplication using Java 11.0.21 on macdduck with PID 16752 (C:\GitHub\map-team-final-project\hello\back\JihoGivenchy-back-local\local\build\classes\java\main started by knh96 in C:\GitHub\map-team-final-project\hello\back\JihoGivenchy-back-local\local)
 2024-04-22 17:16  INFO [project.local.LocalApplication] No active profile set, falling back to 1 default profile: "default"
 2024-04-22 17:16  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
@@ -16177,3 +16178,28 @@ com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct 
 2024-04-22 17:17  INFO [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] Initializing Spring DispatcherServlet 'dispatcherServlet'
 2024-04-22 17:17  INFO [org.springframework.web.servlet.DispatcherServlet] Initializing Servlet 'dispatcherServlet'
 2024-04-22 17:17  INFO [org.springframework.web.servlet.DispatcherServlet] Completed initialization in 1 ms
+=======
+>>>>>>> d97bb98aa836de92a9111c4be8c9f572ae89b6c0
+2024-04-22 17:27  INFO [project.local.LocalApplication] Starting LocalApplication using Java 11.0.21 on macdduck with PID 26552 (C:\GitHub\map-team-final-project\hello\back\JihoGivenchy-back-local\local\build\classes\java\main started by knh96 in C:\GitHub\map-team-final-project\hello\back\JihoGivenchy-back-local\local)
+2024-04-22 17:27  INFO [project.local.LocalApplication] No active profile set, falling back to 1 default profile: "default"
+2024-04-22 17:27  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-22 17:27  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Finished Spring Data repository scanning in 57 ms. Found 3 JPA repository interfaces.
+2024-04-22 17:27  INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] Tomcat initialized with port(s): 8080 (http)
+2024-04-22 17:27  INFO [org.apache.coyote.http11.Http11NioProtocol] Initializing ProtocolHandler ["http-nio-8080"]
+2024-04-22 17:27  INFO [org.apache.catalina.core.StandardService] Starting service [Tomcat]
+2024-04-22 17:27  INFO [org.apache.catalina.core.StandardEngine] Starting Servlet engine: [Apache Tomcat/9.0.69]
+2024-04-22 17:27  INFO [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] Initializing Spring embedded WebApplicationContext
+2024-04-22 17:27  INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext] Root WebApplicationContext: initialization completed in 1416 ms
+2024-04-22 17:27  INFO [org.hibernate.jpa.internal.util.LogHelper] HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-22 17:27  INFO [org.hibernate.Version] HHH000412: Hibernate ORM core version 5.6.14.Final
+2024-04-22 17:27  INFO [org.hibernate.annotations.common.Version] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-04-22 17:27  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Starting...
+2024-04-22 17:27  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Start completed.
+2024-04-22 17:27  INFO [org.hibernate.dialect.Dialect] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-04-22 17:27  INFO [org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-04-22 17:27  INFO [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-22 17:27  INFO [org.springframework.security.web.DefaultSecurityFilterChain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@be186df, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2c257c0a, org.springframework.security.web.context.SecurityContextPersistenceFilter@943cf5, org.springframework.security.web.header.HeaderWriterFilter@c8ed958, org.springframework.web.filter.CorsFilter@16269ff4, org.springframework.security.web.authentication.logout.LogoutFilter@7343d843, project.local.controller.sign.jwt.JWTFilter@684bfba9, project.local.controller.sign.jwt.LoginFilter@6f9b5f01, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5a20f793, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@438a65a7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6859bbd4, org.springframework.security.web.session.SessionManagementFilter@751b901a, org.springframework.security.web.access.ExceptionTranslationFilter@151f1734, org.springframework.security.web.access.intercept.AuthorizationFilter@136690b1]
+2024-04-22 17:27  WARN [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-04-22 17:27  INFO [org.apache.coyote.http11.Http11NioProtocol] Starting ProtocolHandler ["http-nio-8080"]
+2024-04-22 17:27  INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] Tomcat started on port(s): 8080 (http) with context path ''
+2024-04-22 17:27  INFO [project.local.LocalApplication] Started LocalApplication in 4.856 seconds (JVM running for 5.561)

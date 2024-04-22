@@ -21,4 +21,6 @@ public class LocalCardBenefitsDTO {
     private String benefitSummaryMap;
     private String cardName;
     private String image;
+
 }
+

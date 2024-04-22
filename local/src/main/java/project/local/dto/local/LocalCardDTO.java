@@ -2,7 +2,6 @@ package project.local.dto.local;
 
 import lombok.*;
 import project.local.dto.cardDetails.CardDetailDTO;
-
 import java.util.List;
 
 @Builder

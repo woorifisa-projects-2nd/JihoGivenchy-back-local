@@ -24,7 +24,7 @@ public class MapBenefitsController {
             log.info(categoryByCode);
             return mapService.findCardByCategory(categoryByCode, 1012341234L);
         } catch (Exception e) {
-            log.info("asdf");
+            log.info(e);
             throw new RuntimeException(e);
         }
     }

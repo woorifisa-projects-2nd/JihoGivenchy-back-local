@@ -3,7 +3,6 @@ package project.local.entity.cardInfo;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Builder
