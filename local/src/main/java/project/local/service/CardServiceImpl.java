@@ -1,9 +1,12 @@
 package project.local.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
 import project.local.dto.cardDetails.CardDetailDTO;
 import project.local.dto.local.LocalCardBenefitsDTO;
+import project.local.dto.local.LocalCardDTO;
+import project.local.dto.local.SearchDTO;
 import project.local.entity.cardInfo.Card;
 import project.local.entity.cardInfo.CardBenefits;
 import project.local.repository.CardBenefitsRepository;
@@ -35,21 +38,33 @@ public class CardServiceImpl {
             localCardBenefitsDTOS.add(localCardBenefitsDTO);
         }
 
-
         return localCardBenefitsDTOS;
     }
 
-    public CardDetailDTO findById(Long id) {
-        CardBenefits a = cardBenefitsRepository.findById(id).orElse(null);
-        Card b = cardRepository.findById(a.getCard().getId()).orElse(null);
+    public List<LocalCardDTO> findCardDetails(SearchDTO searchDTO) {
+        List<Long> cardIds = searchDTO.getCardId();
+        List<LocalCardDTO> cards = new ArrayList<>();
 
-        return CardDetailDTO.builder()
-                .benefitsId(a.getId())
-                .benefitTitle(a.getBenefitTitle())
-                .benefitSummary(a.getBenefitSummary())
-                .cardCompany(b.getCardCompany())
-                .cardImage(b.getCardImage())
-                .build();
+        for (Long cardId : cardIds) {
+            Card card = cardRepository.findById(cardId).orElseThrow();
+            List<CardBenefits> byCardId = cardBenefitsRepository.findByCard_Id(cardId);
+            List<CardDetailDTO> detailDTOs = new ArrayList<>();
 
+            for (CardBenefits cardBenefits : byCardId) {
+                detailDTOs.add(CardDetailDTO.builder()
+                        .benefitTitle(cardBenefits.getBenefitTitle())
+                        .benefitSummary(cardBenefits.getBenefitSummary())
+                        .build());
+            }
+            cards.add(LocalCardDTO.builder()
+                    .cardImage(card.getCardImage())
+                    .cardName(card.getCardName())
+                    .cardCompany(card.getCardCompany())
+                    .annualFee(card.getAnnualFee())
+                    .previousAmount(card.getPreviousAmount())
+                    .benefits(detailDTOs)
+                    .build());
+        }
+        return cards;
     }
 }

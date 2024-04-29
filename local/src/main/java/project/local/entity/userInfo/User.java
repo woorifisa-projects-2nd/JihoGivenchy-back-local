@@ -42,7 +42,4 @@ public class User {
     @Column(name = "RESULT_PAY", nullable = true)
     private int resultPay;
 
-
-
-
 }

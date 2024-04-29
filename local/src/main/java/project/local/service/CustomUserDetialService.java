@@ -22,7 +22,6 @@ public class CustomUserDetialService implements UserDetailsService {
 
         Optional<User> userData = userRepository.findById(Long.valueOf(username));
 
-
             return new CustomUserDetails(userData.orElseThrow());
 
 

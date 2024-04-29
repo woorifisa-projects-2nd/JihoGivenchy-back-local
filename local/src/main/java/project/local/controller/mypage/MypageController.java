@@ -3,6 +3,7 @@ package project.local.controller.mypage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
+import project.local.dto.local.LocalCardDTO;
 import project.local.dto.mydata.BillsDTO;
 import project.local.dto.mydata.BillsDetailsDTO;
 import project.local.dto.mydata.CardsDTO;
@@ -41,14 +42,17 @@ public class MypageController {
         // id를 header, 년월을 파라미터로 api 요청 -> 특정 달의 청구 상세내역 반환
         List<BillsDetailsDTO> billsDetails = myDataService.requestBillsDetails(userId, dto.getMonth());
 
-        List<String> myCardImages = userService.findMyCardLists(cards);
+        List<LocalCardDTO> myCards = userService.findMyCardLists(cards);
 
         SpentAmountDTO spentAmount = userService.findSpentAmount(billsDetails);
+
+        String categoryCodeFromValue = userService.getCategoryCodeFromValue(spentAmount.getMaxCategoryValue());
 
         return MypageDTO.builder()
                 .timeAndTotalAmountDTO(dto)
                 .spentAmountDTO(spentAmount)
-                .images(myCardImages)
+                .myCards(myCards)
+                .maxCategoryCode(categoryCodeFromValue)
                 .build();
     }
 }

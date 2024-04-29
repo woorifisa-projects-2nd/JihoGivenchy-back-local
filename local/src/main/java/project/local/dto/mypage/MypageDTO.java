@@ -1,6 +1,7 @@
 package project.local.dto.mypage;
 
 import lombok.*;
+import project.local.dto.local.LocalCardDTO;
 import project.local.dto.mydata.SubscriptionDTO;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public class MypageDTO {
 
     private SpentAmountDTO spentAmountDTO;
     // 내 카드 리스트
-    private List<String> images;
+    private List<LocalCardDTO> myCards;
+
+    private String maxCategoryCode;
 
 }

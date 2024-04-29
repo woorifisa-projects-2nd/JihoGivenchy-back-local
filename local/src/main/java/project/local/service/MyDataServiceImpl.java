@@ -10,6 +10,7 @@ import project.local.dto.mydata.CardsDTO;
 import project.local.dto.mydata.SubscriptionDTO;
 import project.local.service.inter.MyDataService;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -24,7 +25,7 @@ public class MyDataServiceImpl implements MyDataService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public List<CardsDTO> requestCards(Long id) throws Exception {
+    public List<CardsDTO> requestCards(Long id) throws IOException, InterruptedException {
         String userId = String.valueOf(id);
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -43,7 +44,7 @@ public class MyDataServiceImpl implements MyDataService {
     }
 
     @Override
-    public List<BillsDTO> requestBills(Long id) throws Exception {
+    public List<BillsDTO> requestBills(Long id) throws IOException, InterruptedException {
         String userId = String.valueOf(id);
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -62,7 +63,7 @@ public class MyDataServiceImpl implements MyDataService {
     }
 
     @Override
-    public List<BillsDetailsDTO> requestBillsDetails(Long id, int month) throws Exception {
+    public List<BillsDetailsDTO> requestBillsDetails(Long id, int month) throws IOException, InterruptedException {
         String userId = String.valueOf(id);
 
         // month 파라미터를 URL 쿼리 파라미터로 추가
@@ -84,7 +85,7 @@ public class MyDataServiceImpl implements MyDataService {
     }
 
     @Override
-    public List<SubscriptionDTO> requestSubscription(Long id) throws Exception {
+    public List<SubscriptionDTO> requestSubscription(Long id) throws IOException, InterruptedException {
         String userId = String.valueOf(id);
 
         HttpRequest request = HttpRequest.newBuilder()

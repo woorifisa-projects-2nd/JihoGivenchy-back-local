@@ -2,13 +2,18 @@ package project.local.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import project.local.dto.cardDetails.CardDetailDTO;
+import project.local.dto.local.LocalCardDTO;
 import project.local.dto.mydata.BillsDTO;
 import project.local.dto.mydata.BillsDetailsDTO;
 import project.local.dto.mydata.CardsDTO;
 import project.local.dto.mypage.SpentAmountDTO;
 import project.local.dto.mypage.TimeAndTotalAmountDTO;
+import project.local.entity.Category;
 import project.local.entity.cardInfo.Card;
+import project.local.entity.cardInfo.CardBenefits;
 import project.local.entity.userInfo.User;
+import project.local.repository.CardBenefitsRepository;
 import project.local.repository.CardRepository;
 import project.local.repository.UserRepository;
 import project.local.service.inter.UserService;
@@ -22,6 +27,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final CardRepository cardRepository;
+    private final CardBenefitsRepository cardBenefitsRepository;
 
     // 회원 찾고 그 회원의 보유 카드 찾기 // null이면 회원이 아님.
     @Override
@@ -33,14 +39,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> findMyCardLists(List<CardsDTO> cards) {
-
-        List<String> images = new ArrayList<>();
+    public List<LocalCardDTO> findMyCardLists(List<CardsDTO> cards) {
+        List<LocalCardDTO> myCards = new ArrayList<>();
         for (CardsDTO card : cards) {
-            Card byId = cardRepository.findById(card.getCardId()).orElse(null);
-            images.add(byId.getCardImage());
+            Card byId = cardRepository.findById(card.getCardId()).orElseThrow();
+            List<CardBenefits> byCardIds = cardBenefitsRepository.findByCard_Id(byId.getId());
+            List<CardDetailDTO> cardDetailDTOs = new ArrayList<>();
+            for (CardBenefits byCardId : byCardIds) {
+                cardDetailDTOs.add(CardDetailDTO.builder()
+                        .benefitTitle(byCardId.getBenefitTitle())
+                        .benefitSummary(byCardId.getBenefitSummary())
+                        .build());
+            }
+            myCards.add(LocalCardDTO.builder()
+                            .cardImage(byId.getCardImage())
+                            .cardType(byId.getCardType())
+                            .cardName(byId.getCardName())
+                            .cardCompany(byId.getCardCompany())
+                            .annualFee(byId.getAnnualFee())
+                            .previousAmount(byId.getPreviousAmount())
+                            .benefits(cardDetailDTOs)
+                    .build());
         }
-        return images;
+        return myCards;
     }
 
     @Override
@@ -103,7 +124,17 @@ public class UserServiceImpl implements UserService {
                 .supermarket(categories.getOrDefault("대형마트", 0))
                 .movie(categories.getOrDefault("영화관", 0))
                 .etc(etcSum)
-                .maxCategory(maxCategory)
+                .maxCategoryValue(maxCategory)
                 .build();
+    }
+
+    @Override
+    public String getCategoryCodeFromValue(String categoryValue) {
+        for (Category category : Category.values()) {
+            if (category.getCategory().equals(categoryValue)) {
+                return category.name();
+            }
+        }
+        return null;
     }
 }

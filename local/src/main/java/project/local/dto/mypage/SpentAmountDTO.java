@@ -18,5 +18,5 @@ public class SpentAmountDTO {
     private int movie;
     private int etc;
 
-    private String maxCategory;
+    private String maxCategoryValue;
 }
