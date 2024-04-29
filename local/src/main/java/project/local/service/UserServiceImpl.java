@@ -45,6 +45,7 @@ public class UserServiceImpl implements UserService {
             Card byId = cardRepository.findById(card.getCardId()).orElseThrow();
             List<CardBenefits> byCardIds = cardBenefitsRepository.findByCard_Id(byId.getId());
             List<CardDetailDTO> cardDetailDTOs = new ArrayList<>();
+            System.out.println("byCardIds.size() = " + byCardIds.size());
             for (CardBenefits byCardId : byCardIds) {
                 cardDetailDTOs.add(CardDetailDTO.builder()
                         .benefitTitle(byCardId.getBenefitTitle())
@@ -137,4 +138,5 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
 }

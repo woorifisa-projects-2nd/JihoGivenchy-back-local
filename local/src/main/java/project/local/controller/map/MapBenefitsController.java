@@ -5,13 +5,14 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 import project.local.dto.local.LocalCardBenefitsDTO;
 import project.local.dto.mydata.CardsDTO;
-import project.local.dto.mypage.SpentAmountDTO;
+import project.local.dto.map.StoreDTO;
 import project.local.service.MapServiceImpl;
 import project.local.service.MyDataServiceImpl;
 import project.local.service.UserServiceImpl;
 
 import java.io.IOException;
 import java.util.List;
+
 
 @Log4j2
 @RestController
@@ -31,4 +32,9 @@ public class MapBenefitsController {
         return mapService.findCardByCategory(categoryByCode, cardsDTOS);
     }
 
+    @GetMapping("/store")
+    public List<StoreDTO> findAllStore() {
+        List<StoreDTO> storeDTOS = mapService.findAllStore();
+        return storeDTOS;
+    }
 }

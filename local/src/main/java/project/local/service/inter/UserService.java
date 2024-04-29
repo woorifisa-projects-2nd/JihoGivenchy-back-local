@@ -21,5 +21,4 @@ public interface UserService {
     SpentAmountDTO findSpentAmount(List<BillsDetailsDTO> billsDetails);
 
     String getCategoryCodeFromValue(String categoryValue);
-
 }
