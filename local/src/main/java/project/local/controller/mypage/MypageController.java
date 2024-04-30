@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 import project.local.dto.local.LocalCardDTO;
+import project.local.dto.loginAndJoin.UserDTO;
 import project.local.dto.mydata.BillsDTO;
 import project.local.dto.mydata.BillsDetailsDTO;
 import project.local.dto.mydata.CardsDTO;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
-@RequestMapping("/universe/mypage/{userId}")
+@RequestMapping("/universe/mypage")
 @RequiredArgsConstructor
 public class MypageController {
 
@@ -26,7 +27,7 @@ public class MypageController {
     private final UserServiceImpl userService;
     LocalDate now = LocalDate.now();
 
-    @GetMapping
+    @GetMapping("/{userId}")
     public MypageDTO forMypage(@PathVariable("userId") Long id) throws Exception {
         Long userId = userService.findUser(id);
 
@@ -54,5 +55,16 @@ public class MypageController {
                 .myCards(myCards)
                 .maxCategoryCode(categoryCodeFromValue)
                 .build();
+    }
+
+    @GetMapping("/update/{userId}")
+    public UserDTO findForUpdate(@PathVariable("userId") Long id) {
+        return userService.findForUpdate(id);
+    }
+
+    @PostMapping("/update/{userId}")
+    public void updateUser(@RequestBody UserDTO userDTO) {
+        System.out.println("userDTO = " + userDTO);
+        userService.updateUser(userDTO);
     }
 }

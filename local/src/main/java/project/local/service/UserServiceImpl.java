@@ -1,9 +1,12 @@
 package project.local.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.local.dto.cardDetails.CardDetailDTO;
 import project.local.dto.local.LocalCardDTO;
+import project.local.dto.loginAndJoin.UserDTO;
 import project.local.dto.mydata.BillsDTO;
 import project.local.dto.mydata.BillsDetailsDTO;
 import project.local.dto.mydata.CardsDTO;
@@ -28,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final CardRepository cardRepository;
     private final CardBenefitsRepository cardBenefitsRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     // 회원 찾고 그 회원의 보유 카드 찾기 // null이면 회원이 아님.
     @Override
@@ -45,12 +49,14 @@ public class UserServiceImpl implements UserService {
             Card byId = cardRepository.findById(card.getCardId()).orElseThrow();
             List<CardBenefits> byCardIds = cardBenefitsRepository.findByCard_Id(byId.getId());
             List<CardDetailDTO> cardDetailDTOs = new ArrayList<>();
-            System.out.println("byCardIds.size() = " + byCardIds.size());
             for (CardBenefits byCardId : byCardIds) {
-                cardDetailDTOs.add(CardDetailDTO.builder()
-                        .benefitTitle(byCardId.getBenefitTitle())
-                        .benefitSummary(byCardId.getBenefitSummary())
-                        .build());
+                if (byCardId.getBenefitTitle() != null && !byCardId.getBenefitTitle().isEmpty() &&
+                        byCardId.getBenefitSummary() != null && !byCardId.getBenefitSummary().isEmpty()) {
+                    cardDetailDTOs.add(CardDetailDTO.builder()
+                            .benefitTitle(byCardId.getBenefitTitle())
+                            .benefitSummary(byCardId.getBenefitSummary())
+                            .build());
+                }
             }
             myCards.add(LocalCardDTO.builder()
                             .cardImage(byId.getCardImage())
@@ -139,4 +145,26 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public UserDTO findForUpdate(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+
+        return UserDTO.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .nickName(user.getNickName())
+                .build();
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(UserDTO userDTO) {
+        userRepository.findById(userDTO.getId()).ifPresent(user -> {
+            Optional.ofNullable(userDTO.getName()).ifPresent(user::setName);
+            Optional.ofNullable(userDTO.getNickName()).ifPresent(user::setNickName);
+
+            String encodedPassword = bCryptPasswordEncoder.encode(userDTO.getPassword());
+            user.setPassword(encodedPassword);
+        });
+    }
 }

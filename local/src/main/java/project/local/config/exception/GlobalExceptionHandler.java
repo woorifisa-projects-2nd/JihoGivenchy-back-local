@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -28,7 +29,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<String> nullPointerExceptionHandler(final NullPointerException e) {
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body("요청한 값을 찾을 수 없습니다." + e.getMessage());
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<String> noSuchElementExceoptionHandler(final NoSuchElementException e) {
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("요청한 값이 없습니다." + e.getMessage());
     }
 }

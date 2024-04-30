@@ -1,6 +1,7 @@
 package project.local.service.inter;
 
 import project.local.dto.local.LocalCardDTO;
+import project.local.dto.loginAndJoin.UserDTO;
 import project.local.dto.mydata.BillsDTO;
 import project.local.dto.mydata.BillsDetailsDTO;
 import project.local.dto.mydata.CardsDTO;
@@ -21,4 +22,8 @@ public interface UserService {
     SpentAmountDTO findSpentAmount(List<BillsDetailsDTO> billsDetails);
 
     String getCategoryCodeFromValue(String categoryValue);
+
+    UserDTO findForUpdate(Long id);
+
+    void updateUser(UserDTO userDTO);
 }
