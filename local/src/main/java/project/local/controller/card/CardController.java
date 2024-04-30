@@ -29,6 +29,7 @@ public class CardController {
 
     @PostMapping
     public List<LocalCardDTO> searchCards(@RequestBody SearchDTO searchDTO) {
+
          return cardService.findCardDetails(searchDTO);
     }
 }
