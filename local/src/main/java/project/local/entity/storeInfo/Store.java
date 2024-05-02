@@ -1,6 +1,7 @@
 package project.local.entity.storeInfo;
 
 import lombok.*;
+import project.local.entity.userInfo.User;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -34,4 +35,18 @@ public class Store {
 
     @Column(name = "STORE_EXDATE")
     private Date storeExDate;
+
+    public void update(String storeName, String storeAddress, String storeCategory, Date storeRegDate, Date storeExDate) {
+        this.storeName = storeName;
+        this.storeAddress = storeAddress;
+        this.storeCategory = storeCategory;
+        this.storeRegDate = storeRegDate;
+        this.storeExDate = storeExDate;
+    }
+
+
+
+
+
+
 }

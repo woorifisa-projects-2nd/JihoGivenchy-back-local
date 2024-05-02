@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final InquiryRepository inquiryRepository;
 
+
     // 회원 찾고 그 회원의 보유 카드 찾기 // null이면 회원이 아님.
     @Override
     public Long findUser(Long id) {
@@ -172,6 +173,7 @@ public class UserServiceImpl implements UserService {
         });
     }
 
+    @Override
     public void saveHelp(HelpDTO helpDTO) {
         User user = userRepository.findById(helpDTO.getHelpId()).orElseThrow();
         Inquiry inquiry = Inquiry.builder()

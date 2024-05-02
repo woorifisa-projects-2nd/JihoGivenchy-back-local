@@ -5,6 +5,7 @@ import project.local.dto.loginAndJoin.UserDTO;
 import project.local.dto.mydata.BillsDTO;
 import project.local.dto.mydata.BillsDetailsDTO;
 import project.local.dto.mydata.CardsDTO;
+import project.local.dto.mypage.HelpDTO;
 import project.local.dto.mypage.SpentAmountDTO;
 import project.local.dto.mypage.TimeAndTotalAmountDTO;
 
@@ -26,4 +27,6 @@ public interface UserService {
     UserDTO findForUpdate(Long id);
 
     void updateUser(UserDTO userDTO);
+
+    void saveHelp(HelpDTO helpDTO);
 }
