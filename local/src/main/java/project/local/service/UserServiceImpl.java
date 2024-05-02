@@ -10,14 +10,17 @@ import project.local.dto.loginAndJoin.UserDTO;
 import project.local.dto.mydata.BillsDTO;
 import project.local.dto.mydata.BillsDetailsDTO;
 import project.local.dto.mydata.CardsDTO;
+import project.local.dto.mypage.HelpDTO;
 import project.local.dto.mypage.SpentAmountDTO;
 import project.local.dto.mypage.TimeAndTotalAmountDTO;
 import project.local.entity.Category;
 import project.local.entity.cardInfo.Card;
 import project.local.entity.cardInfo.CardBenefits;
+import project.local.entity.userInfo.Inquiry;
 import project.local.entity.userInfo.User;
 import project.local.repository.CardBenefitsRepository;
 import project.local.repository.CardRepository;
+import project.local.repository.InquiryRepository;
 import project.local.repository.UserRepository;
 import project.local.service.inter.UserService;
 
@@ -32,6 +35,7 @@ public class UserServiceImpl implements UserService {
     private final CardRepository cardRepository;
     private final CardBenefitsRepository cardBenefitsRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final InquiryRepository inquiryRepository;
 
     // 회원 찾고 그 회원의 보유 카드 찾기 // null이면 회원이 아님.
     @Override
@@ -167,4 +171,16 @@ public class UserServiceImpl implements UserService {
             user.setPassword(encodedPassword);
         });
     }
+
+    public void saveHelp(HelpDTO helpDTO) {
+        User user = userRepository.findById(helpDTO.getHelpId()).orElseThrow();
+        Inquiry inquiry = Inquiry.builder()
+                .category(helpDTO.getInquiryCategory())
+                .title(helpDTO.getInquiryTitle())
+                .content(helpDTO.getInquiryContent())
+                .user(user)
+                .build();
+        inquiryRepository.save(inquiry);
+    }
+
 }

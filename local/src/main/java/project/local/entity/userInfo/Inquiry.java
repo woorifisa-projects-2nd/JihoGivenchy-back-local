@@ -15,6 +15,7 @@ import java.sql.Date;
 public class Inquiry {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "INQUIRY_ID", nullable = false)
     private Long questionId;
 

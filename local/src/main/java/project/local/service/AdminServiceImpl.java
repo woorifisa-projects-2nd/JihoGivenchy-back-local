@@ -3,7 +3,6 @@ package project.local.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import project.local.dto.cardDetails.CardDetailDTO;
 import project.local.dto.local.LocalCardDTO;
 import project.local.entity.cardInfo.Card;
@@ -14,7 +13,6 @@ import project.local.repository.CardRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -67,14 +65,18 @@ public class AdminServiceImpl {
     public LocalCardDTO findForUpdate(Long id) {
         Card card = cardRepository.findById(id).orElse(null);
         List<CardBenefits> cardBenefitsList = cardBenefitsRepository.findByCard_Id(id);
-        List<CardDetailDTO> benefits = cardBenefitsList.stream()
-                .map(cardBenefit -> CardDetailDTO.builder()
-                        .benefitsId(cardBenefit.getId())
-                        .category(cardBenefit.getCategory())
-                        .benefitTitle(cardBenefit.getBenefitTitle())
-                        .benefitSummary(cardBenefit.getBenefitSummary())
-                        .build())
-                .collect(Collectors.toList());
+        List<CardDetailDTO> cardDetailDTOs = new ArrayList<>();
+        for (CardBenefits cardBenefits : cardBenefitsList) {
+            if (cardBenefits.getBenefitTitle() != null && !cardBenefits.getBenefitTitle().isEmpty()
+                    && cardBenefits.getBenefitSummary() != null && !cardBenefits.getBenefitSummary().isEmpty()) {
+                cardDetailDTOs.add(CardDetailDTO.builder()
+                        .benefitsId(cardBenefits.getId())
+                        .category(cardBenefits.getCategory())
+                        .benefitTitle(cardBenefits.getBenefitTitle())
+                        .benefitSummary(cardBenefits.getBenefitSummary())
+                        .build());
+            }
+        }
 
         return LocalCardDTO.builder()
                 .id(id)
@@ -84,7 +86,7 @@ public class AdminServiceImpl {
                 .cardName(card.getCardName())
                 .annualFee(card.getAnnualFee())
                 .previousAmount(card.getPreviousAmount())
-                .benefits(benefits)
+                .benefits(cardDetailDTOs)
                 .build();
     }
 

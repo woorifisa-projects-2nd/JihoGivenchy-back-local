@@ -51,10 +51,14 @@ public class CardServiceImpl {
             List<CardDetailDTO> detailDTOs = new ArrayList<>();
 
             for (CardBenefits cardBenefits : byCardId) {
-                detailDTOs.add(CardDetailDTO.builder()
-                        .benefitTitle(cardBenefits.getBenefitTitle())
-                        .benefitSummary(cardBenefits.getBenefitSummary())
-                        .build());
+                if (cardBenefits.getBenefitTitle() != null && !cardBenefits.getBenefitTitle().isEmpty() &&
+                        cardBenefits.getBenefitSummary() != null && !cardBenefits.getBenefitSummary().isEmpty()
+                ) {
+                    detailDTOs.add(CardDetailDTO.builder()
+                            .benefitTitle(cardBenefits.getBenefitTitle())
+                            .benefitSummary(cardBenefits.getBenefitSummary())
+                            .build());
+                }
             }
             cards.add(LocalCardDTO.builder()
                     .cardImage(card.getCardImage())
