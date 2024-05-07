@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.local.dto.cardDetails.CardDetailDTO;
 import project.local.dto.local.LocalCardDTO;
-import project.local.dto.loginAndJoin.UserDTO;
+import project.local.dto.loginAndSingUp.UserDTO;
 import project.local.dto.mydata.BillsDTO;
 import project.local.dto.mydata.BillsDetailsDTO;
 import project.local.dto.mydata.CardsDTO;

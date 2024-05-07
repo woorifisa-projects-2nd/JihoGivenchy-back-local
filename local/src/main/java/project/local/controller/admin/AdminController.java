@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 import project.local.dto.local.LocalCardDTO;
-import project.local.dto.loginAndJoin.UserDTO;
+import project.local.dto.loginAndSingUp.UserDTO;
 import project.local.dto.mypage.HelpDTO;
 import project.local.service.AdminServiceImpl;
 

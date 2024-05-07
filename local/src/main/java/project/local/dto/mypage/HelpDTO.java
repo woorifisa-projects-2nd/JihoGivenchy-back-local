@@ -11,6 +11,7 @@ public class HelpDTO {
 
     private Long questionId;
     private Long userId;
+
     private String userName;
     private String inquiryTitle;
     private String inquiryCategory;
@@ -18,4 +19,5 @@ public class HelpDTO {
     private int isAnswer;
 
     private String answer;
+
 }

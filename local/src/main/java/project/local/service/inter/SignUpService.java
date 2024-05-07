@@ -1,8 +1,8 @@
 package project.local.service.inter;
 
-import project.local.dto.loginAndJoin.UserDTO;
+import project.local.dto.loginAndSingUp.UserDTO;
 
-public interface JoinService {
+public interface SignUpService {
 
     public void signUp(UserDTO userDTO);
 

@@ -15,7 +15,6 @@ import java.util.List;
 public class HelpController {
 
     private final UserServiceImpl userService;
-
     // user의 질문 리스트 조회(처음 화면 랜더링 시) 1(답변완료)인 애들부터 조회
     // isAnswer을 같이 보내서 프론트에서 얘네가지고 버튼 다르게
     // questionId를 key로 ㄱㄱㄱ index를 key 말고

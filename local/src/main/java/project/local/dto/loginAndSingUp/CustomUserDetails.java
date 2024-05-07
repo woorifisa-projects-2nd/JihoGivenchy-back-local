@@ -1,6 +1,6 @@
-package project.local.controller.sign.jwt;
+package project.local.dto.loginAndSingUp;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import project.local.entity.userInfo.User;
@@ -8,11 +8,15 @@ import project.local.entity.userInfo.User;
 import java.util.ArrayList;
 import java.util.Collection;
 
-// jwt 로그인용
-@RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-    private final User user;
+    private User user;
+
+    public CustomUserDetails(User user) {
+
+        this.user = user;
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -20,8 +24,10 @@ public class CustomUserDetails implements UserDetails {
         Collection<GrantedAuthority> collection = new ArrayList<>();
 
         collection.add(new GrantedAuthority() {
+
             @Override
             public String getAuthority() {
+
                 return user.getRole();
             }
         });
@@ -36,8 +42,9 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return String.valueOf(user.getId());
+        return user.getName();
     }
+
 
     @Override
     public boolean isAccountNonExpired() {

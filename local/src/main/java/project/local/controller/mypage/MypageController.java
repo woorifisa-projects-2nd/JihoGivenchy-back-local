@@ -4,13 +4,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 import project.local.dto.local.LocalCardDTO;
-import project.local.dto.loginAndJoin.UserDTO;
+import project.local.dto.loginAndSingUp.UserDTO;
 import project.local.dto.mydata.BillsDTO;
 import project.local.dto.mydata.BillsDetailsDTO;
 import project.local.dto.mydata.CardsDTO;
 import project.local.dto.mypage.MypageDTO;
 import project.local.dto.mypage.SpentAmountDTO;
 import project.local.dto.mypage.TimeAndTotalAmountDTO;
+//import project.local.service.AnnualBenefitsService;
+import project.local.entity.userInfo.AnnualDiscount;
+import project.local.service.AnnualDiscountService;
 import project.local.service.MyDataServiceImpl;
 import project.local.service.UserServiceImpl;
 import project.local.service.inter.MyDataService;
@@ -28,6 +31,7 @@ public class MypageController {
 
     private final MyDataServiceImpl myDataService;
     private final UserServiceImpl userService;
+    private final AnnualDiscountService annualDiscountService;
     LocalDate now = LocalDate.now();
 
     @GetMapping("/{userId}")
@@ -60,11 +64,15 @@ public class MypageController {
         String categoryCodeFromValue = userService.getCategoryCodeFromValue(spentAmount.getMaxCategoryValue());
         System.out.println("categoryCodeFromValue = " + categoryCodeFromValue);
 
+        AnnualDiscount annualDiscount = annualDiscountService.findById(id);
+
+
         return MypageDTO.builder()
                 .timeAndTotalAmountDTO(dto)
                 .spentAmountDTO(spentAmount)
                 .myCards(myCards)
                 .maxCategoryCode(categoryCodeFromValue)
+                .annualDiscount(annualDiscount)
                 .build();
     }
 

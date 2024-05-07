@@ -1,7 +1,7 @@
 package project.local.service.inter;
 
 import project.local.dto.local.LocalCardDTO;
-import project.local.dto.loginAndJoin.UserDTO;
+import project.local.dto.loginAndSingUp.UserDTO;
 import project.local.dto.mydata.BillsDTO;
 import project.local.dto.mydata.BillsDetailsDTO;
 import project.local.dto.mydata.CardsDTO;
@@ -33,4 +33,5 @@ public interface UserService {
     void saveHelp(HelpDTO helpDTO, Long userId);
 
     void deleteHelp(Long questionId);
+
 }
