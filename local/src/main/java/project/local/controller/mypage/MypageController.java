@@ -2,8 +2,12 @@ package project.local.controller.mypage;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import project.local.dto.local.LocalCardDTO;
+import project.local.dto.loginAndSingUp.CustomUserDetails;
 import project.local.dto.loginAndSingUp.UserDTO;
 import project.local.dto.mydata.BillsDTO;
 import project.local.dto.mydata.BillsDetailsDTO;
@@ -11,13 +15,13 @@ import project.local.dto.mydata.CardsDTO;
 import project.local.dto.mypage.MypageDTO;
 import project.local.dto.mypage.SpentAmountDTO;
 import project.local.dto.mypage.TimeAndTotalAmountDTO;
-//import project.local.service.AnnualBenefitsService;
 import project.local.entity.userInfo.AnnualDiscount;
 import project.local.service.AnnualDiscountService;
 import project.local.service.MyDataServiceImpl;
 import project.local.service.UserServiceImpl;
-import project.local.service.inter.MyDataService;
 
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -27,53 +31,42 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MypageController {
 
-//    private final MyDataService myDataService;
-
     private final MyDataServiceImpl myDataService;
     private final UserServiceImpl userService;
     private final AnnualDiscountService annualDiscountService;
     LocalDate now = LocalDate.now();
 
-    @GetMapping("/{userId}")
-    public MypageDTO forMypage(@PathVariable("userId") Long id) throws Exception {
-        Long userId = userService.findUser(id);
-        System.out.println("userId = " + userId);
+    @GetMapping
+    public ResponseEntity<?> getMypageData(HttpSession session) throws IOException, InterruptedException {
+        // 세션에서 사용자 정보를 가져옵니다.
+        UserDetails sessionUser = (CustomUserDetails) session.getAttribute("USER");
+        System.out.println(sessionUser.getUsername());
+        // 세션에서 사용자 ID를 추출합니다.
+        Long userId = sessionUser != null ? Long.valueOf(sessionUser.getUsername()) : null;
 
-        // id를 header에 넣어서 api 요청 -> 내 카드 리스트 반환
+        if (userId == null) {
+            // 로그인하지 않았거나 세션에서 사용자 정보를 가져올 수 없는 경우
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
+        }
+
         List<CardsDTO> cards = myDataService.requestCards(userId);
-        System.out.println("cards = " + cards);
-
-        // id를 header에 넣어서 api 요청 -> 내 년, 월 별 청구내역 반환
         List<BillsDTO> bills = myDataService.requestBills(userId);
-        System.out.println("bills = " + bills);
-
-        //현재시간을 기반으로 전월에 대한 데이터 뽑기 위한 준비작업
-        TimeAndTotalAmountDTO dto = userService.getTimeAndTotalAmount(bills, now);
-        System.out.println("dto = " + dto);
-
-        // id를 header, 년월을 파라미터로 api 요청 -> 특정 달의 청구 상세내역 반환
-        List<BillsDetailsDTO> billsDetails = myDataService.requestBillsDetails(userId, dto.getMonth());
-        System.out.println("billsDetails = " + billsDetails);
-
+        TimeAndTotalAmountDTO timeAndTotalAmountDTO = userService.getTimeAndTotalAmount(bills, LocalDate.now());
+        List<BillsDetailsDTO> billsDetails = myDataService.requestBillsDetails(userId, timeAndTotalAmountDTO.getMonth());
         List<LocalCardDTO> myCards = userService.findMyCardLists(cards);
-        System.out.println("myCards = " + myCards);
-
         SpentAmountDTO spentAmount = userService.findSpentAmount(billsDetails);
-        System.out.println("spentAmount = " + spentAmount);
-
         String categoryCodeFromValue = userService.getCategoryCodeFromValue(spentAmount.getMaxCategoryValue());
-        System.out.println("categoryCodeFromValue = " + categoryCodeFromValue);
+        AnnualDiscount annualDiscount = annualDiscountService.findById(userId);
 
-        AnnualDiscount annualDiscount = annualDiscountService.findById(id);
-
-
-        return MypageDTO.builder()
-                .timeAndTotalAmountDTO(dto)
+        MypageDTO myPageDTO = MypageDTO.builder()
+                .timeAndTotalAmountDTO(timeAndTotalAmountDTO)
                 .spentAmountDTO(spentAmount)
                 .myCards(myCards)
                 .maxCategoryCode(categoryCodeFromValue)
                 .annualDiscount(annualDiscount)
                 .build();
+
+        return ResponseEntity.ok(myPageDTO);
     }
 
     @GetMapping("/update/{userId}")

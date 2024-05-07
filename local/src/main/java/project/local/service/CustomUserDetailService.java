@@ -17,14 +17,14 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // username 매개변수를 id로 받고, 이를 Long 타입으로 변환
+        Long id = Long.valueOf(username);
 
-        User userData = userRepository.findByName(username);
+        // ID를 사용하여 사용자 정보 검색
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
 
-        if (userData != null) {
-            return new CustomUserDetails(userData);
-        }
-
-
-        return null;
+        // 검색된 사용자 정보를 바탕으로 CustomUserDetails 객체 생성
+        return new CustomUserDetails(user);
     }
 }
