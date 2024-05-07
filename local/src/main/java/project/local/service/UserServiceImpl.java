@@ -64,13 +64,13 @@ public class UserServiceImpl implements UserService {
                 }
             }
             myCards.add(LocalCardDTO.builder()
-                            .cardImage(byId.getCardImage())
-                            .cardType(byId.getCardType())
-                            .cardName(byId.getCardName())
-                            .cardCompany(byId.getCardCompany())
-                            .annualFee(byId.getAnnualFee())
-                            .previousAmount(byId.getPreviousAmount())
-                            .benefits(cardDetailDTOs)
+                    .cardImage(byId.getCardImage())
+                    .cardType(byId.getCardType())
+                    .cardName(byId.getCardName())
+                    .cardCompany(byId.getCardCompany())
+                    .annualFee(byId.getAnnualFee())
+                    .previousAmount(byId.getPreviousAmount())
+                    .benefits(cardDetailDTOs)
                     .build());
         }
         return myCards;
@@ -174,15 +174,52 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveHelp(HelpDTO helpDTO) {
-        User user = userRepository.findById(helpDTO.getHelpId()).orElseThrow();
+    public List<HelpDTO> findHelps(Long userId) {
+        List<Inquiry> byUserId = inquiryRepository.findByUser_IdOrderByIsAnswerDesc(userId);
+        List<HelpDTO> helpDTOs = new ArrayList<>();
+        for (Inquiry inquiry : byUserId) {
+            helpDTOs.add(HelpDTO.builder()
+                    .questionId(inquiry.getQuestionId())
+                    .userId(userId)
+                    .userName(inquiry.getUser().getName())
+                    .inquiryTitle(inquiry.getTitle())
+                    .inquiryCategory(inquiry.getCategory())
+                    .isAnswer(inquiry.getIsAnswer())
+                    .build());
+        }
+        return helpDTOs;
+    }
+
+    public HelpDTO findHelp (Long questionId) {
+        Inquiry inquiry = inquiryRepository.findById(questionId).orElse(null);
+        return HelpDTO.builder()
+                .questionId(questionId)
+                .userId(inquiry.getUser().getId())
+                .userName(inquiry.getUser().getName())
+                .inquiryTitle(inquiry.getTitle())
+                .inquiryCategory(inquiry.getCategory())
+                .inquiryContent(inquiry.getContent())
+                .isAnswer(inquiry.getIsAnswer())
+                .answer(inquiry.getAnswer())
+                .build();
+    }
+
+    @Override
+    public void saveHelp(HelpDTO helpDTO, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
         Inquiry inquiry = Inquiry.builder()
                 .category(helpDTO.getInquiryCategory())
                 .title(helpDTO.getInquiryTitle())
                 .content(helpDTO.getInquiryContent())
+                .isAnswer(0)
                 .user(user)
                 .build();
-        inquiryRepository.save(inquiry);
+        inquiryRepository.saveAndFlush(inquiry);
+    }
+
+    @Override
+    public void deleteHelp(Long questionId) {
+        inquiryRepository.deleteById(questionId);
     }
 
 }

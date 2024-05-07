@@ -1,14 +1,18 @@
 package project.local.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.local.dto.cardDetails.CardDetailDTO;
 import project.local.dto.local.LocalCardDTO;
+import project.local.dto.loginAndJoin.UserDTO;
+import project.local.dto.mypage.HelpDTO;
 import project.local.entity.cardInfo.Card;
 import project.local.entity.cardInfo.CardBenefits;
-import project.local.repository.CardBenefitsRepository;
-import project.local.repository.CardRepository;
+import project.local.entity.userInfo.Inquiry;
+import project.local.entity.userInfo.User;
+import project.local.repository.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +24,11 @@ public class AdminServiceImpl {
 
     private final CardRepository cardRepository;
     private final CardBenefitsRepository cardBenefitsRepository;
+    private final InquiryRepository inquiryRepository;
+    private final UserRepository userRepository;
 
     public List<LocalCardDTO> findCards() {
-        List<Card> all = cardRepository.findAll();
+        List<Card> all = cardRepository.findAllByOrderByIdDesc();
         List<LocalCardDTO> localCardDTOs = new ArrayList<>();
         for (Card card : all) {
             // LocalCardDTO 객체를 생성하고 benefits를 설정
@@ -118,5 +124,84 @@ public class AdminServiceImpl {
 
     public void deleteCard(Long id) {
         cardRepository.deleteById(id);
+    }
+
+    public List<HelpDTO> findHelps() {
+        List<Inquiry> allByOrderByIsAnswerAsc = inquiryRepository.findAllByOrderByIsAnswerAsc();
+        List<HelpDTO> helpDTOs = new ArrayList<>();
+        for (Inquiry inquiry : allByOrderByIsAnswerAsc) {
+            helpDTOs.add(HelpDTO.builder()
+                    .questionId(inquiry.getQuestionId())
+                    .userId(inquiry.getUser().getId())
+                    .userName(inquiry.getUser().getName())
+                    .inquiryCategory(inquiry.getCategory())
+                    .inquiryTitle(inquiry.getTitle())
+                    .isAnswer(inquiry.getIsAnswer())
+                    .build());
+        }
+        return helpDTOs;
+    }
+
+    public HelpDTO findForAnswerHelp(Long questionId) {
+        Inquiry byId = inquiryRepository.findById(questionId).orElse(null);
+        return HelpDTO.builder()
+                .questionId(questionId)
+                .userId(byId.getUser().getId())
+                .userName(byId.getUser().getName())
+                .inquiryTitle(byId.getTitle())
+                .inquiryCategory(byId.getCategory())
+                .inquiryContent(byId.getContent())
+                .isAnswer(byId.getIsAnswer())
+                .answer(byId.getAnswer())
+                .build();
+    }
+
+    public void answerTheQuestion(String answer, Long id) {
+        Inquiry inquiry = inquiryRepository.findById(id).orElse(null);
+        inquiry.setIsAnswer(1);
+        inquiry.setAnswer(answer);
+        System.out.println("answer = " + answer);
+        inquiryRepository.saveAndFlush(inquiry);
+    }
+
+    public void deleteHelp(Long questionId) {
+        inquiryRepository.deleteById(questionId);
+    }
+
+    public List<UserDTO> findUsers() {
+        List<User> all = userRepository.findAll();
+        List<UserDTO> userDTO = new ArrayList<>();
+        for (User user : all) {
+            userDTO.add(UserDTO.builder()
+                    .id(user.getId())
+                    .name(user.getName())
+                    .grade(user.getGrade())
+                    .nickName(user.getNickName())
+                    .build());
+        }
+        return userDTO;
+    }
+
+    public UserDTO findForUpdateUser(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        return UserDTO.builder()
+                .id(userId)
+                .name(user.getName())
+                .grade(user.getGrade())
+                .nickName(user.getNickName())
+                .build();
+    }
+
+    public void udpateUser(UserDTO userDTO) {
+        User user = userRepository.findById(userDTO.getId()).orElse(null);
+        user.setName(userDTO.getName());
+        user.setGrade(userDTO.getGrade());
+        user.setNickName(userDTO.getNickName());
+
+        userRepository.saveAndFlush(user);
+    }
+
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
     }
 }

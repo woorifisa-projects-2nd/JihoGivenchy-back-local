@@ -13,6 +13,7 @@ import project.local.dto.mypage.SpentAmountDTO;
 import project.local.dto.mypage.TimeAndTotalAmountDTO;
 import project.local.service.MyDataServiceImpl;
 import project.local.service.UserServiceImpl;
+import project.local.service.inter.MyDataService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,6 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MypageController {
 
+//    private final MyDataService myDataService;
+
     private final MyDataServiceImpl myDataService;
     private final UserServiceImpl userService;
     LocalDate now = LocalDate.now();
@@ -30,24 +33,32 @@ public class MypageController {
     @GetMapping("/{userId}")
     public MypageDTO forMypage(@PathVariable("userId") Long id) throws Exception {
         Long userId = userService.findUser(id);
+        System.out.println("userId = " + userId);
 
         // id를 header에 넣어서 api 요청 -> 내 카드 리스트 반환
         List<CardsDTO> cards = myDataService.requestCards(userId);
+        System.out.println("cards = " + cards);
 
         // id를 header에 넣어서 api 요청 -> 내 년, 월 별 청구내역 반환
         List<BillsDTO> bills = myDataService.requestBills(userId);
+        System.out.println("bills = " + bills);
 
         //현재시간을 기반으로 전월에 대한 데이터 뽑기 위한 준비작업
         TimeAndTotalAmountDTO dto = userService.getTimeAndTotalAmount(bills, now);
+        System.out.println("dto = " + dto);
 
         // id를 header, 년월을 파라미터로 api 요청 -> 특정 달의 청구 상세내역 반환
         List<BillsDetailsDTO> billsDetails = myDataService.requestBillsDetails(userId, dto.getMonth());
+        System.out.println("billsDetails = " + billsDetails);
 
         List<LocalCardDTO> myCards = userService.findMyCardLists(cards);
+        System.out.println("myCards = " + myCards);
 
         SpentAmountDTO spentAmount = userService.findSpentAmount(billsDetails);
+        System.out.println("spentAmount = " + spentAmount);
 
         String categoryCodeFromValue = userService.getCategoryCodeFromValue(spentAmount.getMaxCategoryValue());
+        System.out.println("categoryCodeFromValue = " + categoryCodeFromValue);
 
         return MypageDTO.builder()
                 .timeAndTotalAmountDTO(dto)

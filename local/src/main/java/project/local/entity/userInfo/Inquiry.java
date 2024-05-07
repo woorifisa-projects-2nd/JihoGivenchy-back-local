@@ -35,10 +35,20 @@ public class Inquiry {
     @Column(name = "IS_ANSWER", nullable = false)
     private int isAnswer;
 
-    @Column(name = "INQUIRY_DATE", nullable = false)
-    private Date inquiryDate;
+    @Column(name = "ANSWER", nullable = true)
+    private String answer;
 
-    @Column(name = "INQUIRY_VIEWS", nullable = false)
-    private int views;
+//    @Column(name = "INQUIRY_DATE", nullable = false)
+//    private Date inquiryDate;
+//
+//    @Column(name = "INQUIRY_VIEWS", nullable = false)
+//    private int views;
 
+    public void setIsAnswer(int isAnswer) {
+        this.isAnswer = isAnswer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 }

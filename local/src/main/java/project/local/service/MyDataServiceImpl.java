@@ -29,7 +29,7 @@ public class MyDataServiceImpl implements MyDataService {
         String userId = String.valueOf(id);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://192.168.0.65:8081/v2/card/cards"))
+                .uri(URI.create("http://3.34.123.186:8080/v2/card/cards"))
                 .header("userId", userId) // 헤더에 userId 추가
                 .GET()
                 .build();
@@ -48,7 +48,7 @@ public class MyDataServiceImpl implements MyDataService {
         String userId = String.valueOf(id);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://192.168.0.65:8081/v2/card/bills"))
+                .uri(URI.create("http://3.34.123.186:8080/v2/card/bills"))
                 .header("userId", userId) // 헤더에 userId 추가
                 .GET()
                 .build();
@@ -67,7 +67,7 @@ public class MyDataServiceImpl implements MyDataService {
         String userId = String.valueOf(id);
 
         // month 파라미터를 URL 쿼리 파라미터로 추가
-        String url = String.format("http://192.168.0.65:8081/v2/card/bills/detail?month=%d", month);
+        String url = String.format("http://3.34.123.186:8080/v2/card/bills/detail?month=%d", month);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -89,7 +89,7 @@ public class MyDataServiceImpl implements MyDataService {
         String userId = String.valueOf(id);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://192.168.0.65:8081/v2/subs"))
+                .uri(URI.create("http://3.34.123.186:8080/v2/subs"))
                 .header("userId", userId) // 헤더에 userId 추가
                 .GET()
                 .build();

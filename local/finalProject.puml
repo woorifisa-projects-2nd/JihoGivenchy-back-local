@@ -1,0 +1,560 @@
+@startuml
+class project.local.service.CardServiceImpl {
+- CardBenefitsRepository cardBenefitsRepository
+- CardRepository cardRepository
++ List<LocalCardBenefitsDTO> findAllCardBenefit()
++ List<LocalCardDTO> findCardDetails(SearchDTO)
+}
+
+
+interface project.local.service.inter.MapService {
+}
+class project.local.dto.store.StoresInfoDTO {
+- Long id
+- String storeName
+- String storeAddress
+- String storeCategory
+- String storeExDate
+- String storeRegDate
+}
+
+interface project.local.repository.UserRepository {
+~ boolean existsById(Long)
+}
+
+class project.local.service.MapServiceImpl {
+- CardBenefitsRepository cardBenefitsRepository
+- CardRepository cardRepository
+- StoreRepository storeRepository
++ String getCategoryByCode(String)
++ List<LocalCardBenefitsDTO> findCardByCategory(String,List<CardsDTO>)
++ List<StoreDTO> findAllStore()
+}
+
+
+class project.local.dto.local.LocalCardDTO {
+- Long id
+- String cardName
+- String cardType
+- String annualFee
+- String previousAmount
+- String cardCompany
+- String cardImage
+- List<CardDetailDTO> benefits
+}
+
+class project.local.dto.mydata.SubscriptionDTO {
+- Long subscriptionId
+- Long userId
+- Date issueDate
+- Date expirationDate
+}
+
+class project.local.entity.userInfo.Faq {
+- Long id
+- String title
+- String content
+- int view
+- String category
+}
+
+class project.local.service.grading.GradingService {
+- UserRepository userRepository
++ void updateTransaction(PosDTO)
+}
+
+
+class project.local.dto.mydata.CardsDTO {
+- Long cardId
+- String cardNumber
+- String cardName
+- String cardType
+- String cardBrand
+- int annualFee
+- Date issueDate
+- Date expirationDate
+- int minimumUsage
+- Long userId
+}
+
+class project.local.entity.storeInfo.Store {
+- Long storeId
+- String storeName
+- String storeAddress
+- String storeCategory
+- Date storeRegDate
+- Date storeExDate
++ void update(String,String,String,Date,Date)
+}
+
+
+class project.local.entity.userInfo.User {
+- Long id
+- String password
+- String nickName
+- String name
+- Date joinDate
+- String role
+- int realPay
+- int resultPay
++ void setPassword(String)
++ void setNickName(String)
++ void setName(String)
+}
+
+
+class project.local.controller.card.CardController {
+- CardServiceImpl cardService
++ List<LocalCardBenefitsDTO> findAllCardBenefit()
++ List<LocalCardDTO> searchCards(SearchDTO)
+}
+
+
+class project.local.service.UserServiceImpl {
+- UserRepository userRepository
+- CardRepository cardRepository
+- CardBenefitsRepository cardBenefitsRepository
+- BCryptPasswordEncoder bCryptPasswordEncoder
+- InquiryRepository inquiryRepository
++ Long findUser(Long)
++ List<LocalCardDTO> findMyCardLists(List<CardsDTO>)
++ TimeAndTotalAmountDTO getTimeAndTotalAmount(List<BillsDTO>,LocalDate)
++ SpentAmountDTO findSpentAmount(List<BillsDetailsDTO>)
++ String getCategoryCodeFromValue(String)
++ UserDTO findForUpdate(Long)
++ void updateUser(UserDTO)
++ void saveHelp(HelpDTO,Long)
+}
+
+
+class project.local.service.StoreControllService {
+- StoreRepository storeRepository
++ List<StoresInfoDTO> getAllStores()
++ Store save(StoreUploadDTO)
++ void update(Long,StoreUpdateDTO)
++ void delete(Long)
+}
+
+
+class project.local.dto.store.StoreUploadDTO {
+- String storeName
+- String storeAddress
+- String storeCategory
+- Date storeRegDate
+- Date storeExDate
++ Store toEntity()
+}
+
+
+class project.local.service.signUpServiceimpl {
+- UserRepository userRepository
+- BCryptPasswordEncoder bCryptPasswordEncoder
++ void signUp(UserDTO)
+}
+
+
+class project.local.dto.loginAndJoin.UserDTO {
+- Long id
+- String password
+- String nickName
+- String name
+- Date joinDate
+- String role
+}
+
+class project.local.dto.local.LocalCardBenefitsDTO {
+- Long id
+- String category
+- String cardType
+- Long cardId
+- String categoryMap
+- String benefitTitleMap
+- String benefitSummaryMap
+- String cardName
+- String image
+}
+
+class project.local.entity.cardInfo.Card {
+- Long id
+- String cardName
+- String cardType
+- String annualFee
+- String previousAmount
+- String cardCompany
+- String cardImage
+- List<CardBenefits> benefits
++ void setCardName(String)
++ void setCardType(String)
++ void setAnnualFee(String)
++ void setPreviousAmount(String)
++ void setCardCompany(String)
++ void setCardImage(String)
+}
+
+
+class project.local.entity.userInfo.Inquiry {
+- Long questionId
+- User user
+- String category
+- String title
+- String content
+- int isAnswer
+}
+
+class project.local.controller.mypage.MypageController {
+- MyDataServiceImpl myDataService
+- UserServiceImpl userService
+~ LocalDate now
++ MypageDTO forMypage(Long)
++ UserDTO findForUpdate(Long)
++ void updateUser(UserDTO)
+}
+
+
+class project.local.dto.mypage.TimeAndTotalAmountDTO {
+- int month
+- int totalAmount
+}
+
+class project.local.controller.help.HelpController {
+- UserServiceImpl userService
++ void requestHelp(HelpDTO)
+}
+
+
+class project.local.controller.map.MapBenefitsController {
+- MapServiceImpl mapService
+- MyDataServiceImpl myDataService
+- UserServiceImpl userService
++ List<LocalCardBenefitsDTO> getCardBenefitsByCategory(String)
++ List<StoreDTO> findAllStore()
+}
+
+
+class project.local.config.SecurityConfig {
+- AuthenticationConfiguration authenticationConfiguration
+- JWTUtil jwtUtil
++ AuthenticationManager authenticationManager(AuthenticationConfiguration)
++ BCryptPasswordEncoder bCryptPasswordEncoder()
++ SecurityFilterChain filterChain(HttpSecurity)
+}
+
+
+class project.local.config.CorsConfig {
++ CorsConfigurationSource corsConfigurationSource()
+}
+
+class project.local.controller.sign.jwt.CustomUserDetails {
+- User user
++ Collection<? extends GrantedAuthority> getAuthorities()
++ String getPassword()
++ String getUsername()
++ boolean isAccountNonExpired()
++ boolean isAccountNonLocked()
++ boolean isCredentialsNonExpired()
++ boolean isEnabled()
+}
+
+
+class project.local.dto.local.SearchDTO {
+- List<Long> cardId
+}
+
+class project.local.service.CustomUserDetialService {
+- UserRepository userRepository
++ UserDetails loadUserByUsername(String)
+}
+
+
+interface project.local.repository.CardBenefitsRepository {
+~ List<CardBenefits> findByCard_Id(Long)
+~ CardBenefits findByCard_IdAndCategoryMapContaining(Long,String)
+}
+
+interface project.local.service.inter.UserService {
+~ Long findUser(Long)
+~ List<LocalCardDTO> findMyCardLists(List<CardsDTO>)
+~ TimeAndTotalAmountDTO getTimeAndTotalAmount(List<BillsDTO>,LocalDate)
+~ SpentAmountDTO findSpentAmount(List<BillsDetailsDTO>)
+~ String getCategoryCodeFromValue(String)
+~ UserDTO findForUpdate(Long)
+~ void updateUser(UserDTO)
+~ void saveHelp(HelpDTO,Long)
+}
+
+class project.local.dto.mydata.BillsDTO {
+- Long chargeId
+- Long userId
+- int chargeMonth
+- int chargeDay
+- int chargeAmt
+- int benefits
+}
+
+interface project.local.repository.StoreRepository {
+}
+class project.local.entity.cardInfo.CardBenefits {
+- Long id
+- String category
+- String benefitTitle
+- String benefitSummary
+- Card card
+- String categoryMap
+- String benefitTitleMap
+- String benefitSummaryMap
++ void setCategory(String)
++ void setBenefitTitle(String)
++ void setBenefitSummary(String)
+}
+
+
+class project.local.dto.store.StoreUpdateDTO {
+- String storeName
+- String storeAddress
+- String storeCategory
+- Date storeRegDate
+- Date storeExDate
+}
+
+class project.local.dto.map.MapBenefitDTO {
+- String image
+- String cardName
+- String benefitTitle
+- String benefitSummary
+}
+
+class project.local.controller.store.StoreController {
+- StoreControllService storeControllService
++ List<StoresInfoDTO> findAllStores()
++ void saveStore(StoreUploadDTO)
++ void updateStore(Long,StoreUpdateDTO)
++ void deleteStore(Long)
+}
+
+
+class project.local.service.AdminServiceImpl {
+- CardRepository cardRepository
+- CardBenefitsRepository cardBenefitsRepository
++ List<LocalCardDTO> findCards()
++ void saveCard(LocalCardDTO)
++ LocalCardDTO findForUpdate(Long)
++ void updateCard(LocalCardDTO)
++ void updateBenefits(LocalCardDTO)
++ void deleteCard(Long)
+}
+
+
+class project.local.controller.sign.jwt.LoginFilter {
+- AuthenticationManager authenticationManager
+- JWTUtil jwtUtil
++ Authentication attemptAuthentication(HttpServletRequest,HttpServletResponse)
+# void successfulAuthentication(HttpServletRequest,HttpServletResponse,FilterChain,Authentication)
+# void unsuccessfulAuthentication(HttpServletRequest,HttpServletResponse,AuthenticationException)
+}
+
+
+class project.local.service.MyDataServiceImpl {
+- HttpClient httpClient
+- ObjectMapper objectMapper
++ List<CardsDTO> requestCards(Long)
++ List<BillsDTO> requestBills(Long)
++ List<BillsDetailsDTO> requestBillsDetails(Long,int)
++ List<SubscriptionDTO> requestSubscription(Long)
+}
+
+
+class project.local.entity.userInfo.InquiryResponse {
+- Long id
+- String title
+- String content
+- Date date
+- Inquiry inquiry
+}
+
+class project.local.config.exception.GlobalExceptionHandler {
++ ResponseEntity<String> ioExceoptionHandler(IOException)
++ ResponseEntity<String> entityNotFoundExceptionHandler(EntityNotFoundException)
++ ResponseEntity<String> nullPointerExceptionHandler(NullPointerException)
++ ResponseEntity<String> noSuchElementExceoptionHandler(NoSuchElementException)
+}
+
+class project.local.dto.mypage.MypageDTO {
+- TimeAndTotalAmountDTO timeAndTotalAmountDTO
+- SpentAmountDTO spentAmountDTO
+- List<LocalCardDTO> myCards
+- String maxCategoryCode
+}
+
+class project.local.dto.mypage.HelpDTO {
+- String userName
+- String inquiryTitle
+- String inquiryCategory
+- String inquiryContent
+- int isAnswer
+- String responseHelp
+}
+
+class project.local.controller.admin.AdminController {
+- AdminServiceImpl adminService
++ List<LocalCardDTO> findCards()
++ void addCard(LocalCardDTO)
++ LocalCardDTO findForUpdate(Long)
++ void updateCard(LocalCardDTO)
++ void deleteCard(Long)
+}
+
+
+class project.local.controller.pos.PosController {
+- GradingService gradingService
++ void updateTransaction(PosDTO)
+}
+
+
+class project.local.controller.sign.signUpController {
+- JoinService joinService
++ String singUp(UserDTO)
+}
+
+
+interface project.local.service.inter.JoinService {
++ void signUp(UserDTO)
+}
+
+interface project.local.repository.CardRepository {
+~ List<Card> findByCardType(String)
+~ List<Card> findAllByOrderByIdDesc()
+}
+
+class project.local.controller.sign.jwt.JWTFilter {
+- JWTUtil jwtUtil
+# void doFilterInternal(HttpServletRequest,HttpServletResponse,FilterChain)
+}
+
+
+interface project.local.repository.InquiryRepository {
+}
+class project.local.dto.mydata.BillsDetailsDTO {
+- Long chargeDetailId
+- int cardId
+- Date paidDay
+- int paidAmt
+- String currencyCode
+- String merchantName
+- String merchantType
+- Long chargeId
+}
+
+class project.local.dto.cardDetails.CardDetailDTO {
+- Long benefitsId
+- String benefitTitle
+- String benefitSummary
+- String cardCompany
+- String cardImage
+- String category
+}
+
+class project.local.dto.posDTO.PosDTO {
+- Long id
+- int realPay
+- int resultPay
+}
+
+class project.local.config.WebConfig {
++ void addCorsMappings(CorsRegistry)
+}
+
+class project.local.entity.userInfo.SearchHistory {
+- Long id
+- String searchContents
+- Date searchDate
+- User user
+}
+
+class project.local.LocalApplication {
++ {static} void main(String[])
+}
+
+class project.local.dto.cardDetails.CardDetailRequestDTO {
+- Long id
+- String category
+- String cardType
+- Long cardId
+}
+
+interface project.local.service.inter.CardService {
+}
+class project.local.controller.sign.jwt.JWTUtil {
+- SecretKey secretKey
++ String getUsername(String)
++ String getRole(String)
++ Boolean isExpired(String)
++ String createJwt(String,String,Long)
+}
+
+
+class project.local.dto.mypage.SpentAmountDTO {
+- int restaurant
+- int cafe
+- int gasStation
+- int shopping
+- int convenienceStore
+- int supermarket
+- int movie
+- int etc
+- String maxCategoryValue
+}
+
+class project.local.dto.map.StoreDTO {
+- Long storeId
+- String storeName
+- String storeAddress
+- String storeCategory
+- Date storeRegDate
+- Date storeExDate
+}
+
+enum project.local.entity.Category {
++  MT1
++  CS2
++  PS3
++  SC4
++  AC5
++  PK6
++  OL7
++  SW8
++  BK9
++  CT1
++  AG2
++  PO3
++  AT4
++  AD5
++  FD6
++  CE7
++  HP8
++  PM9
+- String category
+}
+
+interface project.local.service.inter.MyDataService {
+~ List<CardsDTO> requestCards(Long)
+~ List<BillsDTO> requestBills(Long)
+~ List<BillsDetailsDTO> requestBillsDetails(Long,int)
++ List<SubscriptionDTO> requestSubscription(Long)
+}
+
+
+
+org.springframework.data.jpa.repository.JpaRepository <|-- project.local.repository.UserRepository
+project.local.service.inter.UserService <|.. project.local.service.UserServiceImpl
+project.local.service.inter.JoinService <|.. project.local.service.signUpServiceimpl
+org.springframework.security.core.userdetails.UserDetails <|.. project.local.controller.sign.jwt.CustomUserDetails
+org.springframework.security.core.userdetails.UserDetailsService <|.. project.local.service.CustomUserDetialService
+org.springframework.data.jpa.repository.JpaRepository <|-- project.local.repository.CardBenefitsRepository
+org.springframework.data.jpa.repository.JpaRepository <|-- project.local.repository.StoreRepository
+org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter <|-- project.local.controller.sign.jwt.LoginFilter
+project.local.service.inter.MyDataService <|.. project.local.service.MyDataServiceImpl
+org.springframework.data.jpa.repository.JpaRepository <|-- project.local.repository.CardRepository
+org.springframework.web.filter.OncePerRequestFilter <|-- project.local.controller.sign.jwt.JWTFilter
+org.springframework.data.jpa.repository.JpaRepository <|-- project.local.repository.InquiryRepository
+org.springframework.web.servlet.config.annotation.WebMvcConfigurer <|.. project.local.config.WebConfig
+@enduml

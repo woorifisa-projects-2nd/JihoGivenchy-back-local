@@ -9,12 +9,13 @@ import lombok.*;
 @AllArgsConstructor
 public class HelpDTO {
 
-    private Long helpId;
+    private Long questionId;
+    private Long userId;
     private String userName;
     private String inquiryTitle;
     private String inquiryCategory;
     private String inquiryContent;
-    private int state;
+    private int isAnswer;
 
-    private String responseHelp;
+    private String answer;
 }

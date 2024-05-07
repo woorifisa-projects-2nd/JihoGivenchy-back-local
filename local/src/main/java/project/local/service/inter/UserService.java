@@ -28,5 +28,9 @@ public interface UserService {
 
     void updateUser(UserDTO userDTO);
 
-    void saveHelp(HelpDTO helpDTO);
+    List<HelpDTO> findHelps(Long userId);
+
+    void saveHelp(HelpDTO helpDTO, Long userId);
+
+    void deleteHelp(Long questionId);
 }

@@ -41,6 +41,9 @@ public class User {
     @Column(name = "RESULT_PAY", nullable = true)
     private int resultPay;
 
+    @Column(name = "Grade", nullable = true)
+    private String grade;
+
     public void setPassword(String password) {
         this.password = password;
     }

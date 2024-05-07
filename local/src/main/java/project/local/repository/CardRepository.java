@@ -13,6 +13,8 @@ import java.util.List;
 public interface CardRepository extends JpaRepository<Card, Long> {
     List<Card> findByCardType(String cardType);
 
+    List<Card> findAllByOrderByIdDesc();
+
 //    List<Card> findByIdGreaterThan(Long cursorId, Pageable pageable);
 
 }
